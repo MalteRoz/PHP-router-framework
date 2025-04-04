@@ -1,2 +1,8 @@
 <?php
-echo "Valters mamma 123";
+class HomeController
+{
+    public function show()
+    {
+        echo 'Du har kommit till hem';
+    }
+}

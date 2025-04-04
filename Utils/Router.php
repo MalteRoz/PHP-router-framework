@@ -4,31 +4,52 @@ class Router
 {
     protected $routes = [];
 
-    public function add($uri, $controller, $method)
+    public function add($uri, $controller, $method, $function)
     {
         $this->routes[] = [
             'uri' => $uri,
             'controller' => $controller,
-            'method' => $method
+            'method' => $method,
+            'function' => $function,
         ];
     }
 
-    public function get($uri, $controller)
+    public function get($uri, $controller, $function)
     {
-        $this->add($uri, $controller, 'GET');
+        $this->add($uri, $controller, 'GET', $function);
     }
 
+    // public function post($uri, $controller)
+    // {
+    //     $this->add($uri, $controller, 'POST');
+    // }
 
-    public function post($uri, $controller)
-    {
-        $this->add($uri, $controller, 'POST');
-    }
+    // public function delete($uri, $controller)
+    // {
+    //     $this->add($uri, $controller, 'DELETE');
+    // }
+
+    // public function patch($uri, $controller)
+    // {
+    //     $this->add($uri, $controller, 'PATCH');
+    // }
 
     public function route($uri, $method)
     {
+
+        $uriWithoutQuery = strtok($uri, '?');
+
         foreach ($this->routes as $route) {
-            if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
-                return require($route['controller']);
+            if ($route['uri'] === $uriWithoutQuery && $route['method'] === strtoupper($method)) {
+                require_once($route['controller']);
+
+                $controllerName = basename($route['controller'], '.php');
+
+                if (class_exists($controllerName)) {
+                    $controllerInstance = new $controllerName();
+
+                    return $controllerInstance->{$route['function']}($_GET);
+                }
             }
         }
 
@@ -37,6 +58,9 @@ class Router
 
     public function abort()
     {
+
+        //lägga statuskod 
+
         return require('Controllers/404.php');
     }
 }

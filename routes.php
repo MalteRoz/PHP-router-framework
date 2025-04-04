@@ -5,9 +5,7 @@ require_once './Utils/Router.php';
 
 $router = new Router();
 
-$router->get('/', 'Controllers/WelcomeControllers.php');
-$router->get('/Ehandel/supertest', 'Controllers/HomeController.php');
-$router->get('/Ehandel/valter', 'Controllers/ValterController.php');
+$router->get('/', 'Controllers/WelcomeController.php', 'show');
+$router->get('/Ehandel/supertest', 'Controllers/HomeController.php', 'show');
 
-
-$router->post('/Ehandel/valter', 'Controllers/ValterController.php');
+$router->get('/Ehandel/products', 'Controllers/ProductController.php', 'show');
