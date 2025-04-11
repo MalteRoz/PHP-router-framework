@@ -24,10 +24,10 @@ class Router
     //     $this->add($uri, $controller, 'POST');
     // }
 
-    // public function delete($uri, $controller)
-    // {
-    //     $this->add($uri, $controller, 'DELETE');
-    // }
+    public function delete($uri, $controller, $function)
+    {
+        $this->add($uri, $controller, 'DELETE', $function);
+    }
 
     // public function patch($uri, $controller)
     // {
@@ -60,7 +60,6 @@ class Router
     {
 
         //lägga statuskod 
-
-        return require('Controllers/404.php');
+        return include view('404.php');
     }
 }
